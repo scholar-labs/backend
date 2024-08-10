@@ -14,16 +14,12 @@ def say_hello():
 @app.route('/extract-text', methods=['POST'])
 def extract_text_from_pdf():
     uploaded_pdf_file = request.files['file'] # name in request would have to be 'file'.
-
     reader = PdfReader(uploaded_pdf_file)
     number_of_pages = len(reader.pages)
-    
     text = ''
-
     for i in range(number_of_pages):
         page = reader.pages[i]
         text = text + page.extract_text()
-
     return text
 
 
