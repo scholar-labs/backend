@@ -1,0 +1,4 @@
+Run this command in this directory to test the '/pdf-to-text' route
+
+
+curl -X POST -F "file=@sample-document.pdf" http://127.0.0.1:5000/extract-text
