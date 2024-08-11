@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 from PyPDF2 import PdfReader
 import requests
 from youtube_transcript_api import YouTubeTranscriptApi
+import google.generativeai as genai
 
 app = Flask(__name__)
 
@@ -34,6 +35,19 @@ def audio_to_text():
     response = requests.post(API_URL, headers=headers, data=file_data)
     output = response.json()
     return jsonify(output)
+
+# route for Q/A
+@app.route('/answer')
+def QnA():
+    genai.configure(api_key="AIzaSyCVMJybj7KW5wTqaFzl3McAHhqebnNfDSA")
+    model = genai.GenerativeModel('gemini-1.5-flash')
+    context = request.args.get('context')
+    question = request.args.get('question')
+    prompt = f"Given the context: {context}, and the question: {question}, please provide a clear and concise answer in plain text format."
+    response = model.generate_content(prompt)
+    text_response = response.candidates[0].content.parts[0].text
+    text_response = text_response.replace('\n', '')
+    return text_response
 
 if __name__ == '__main__':
     app.run(debug=True)
