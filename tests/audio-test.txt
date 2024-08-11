@@ -1,0 +1,4 @@
+Run this command in this directory to test the '/audio-to-text' route
+
+
+curl -X POST -F "audio=@sample-audio.flac" http://127.0.0.1:5000/audio-to-text

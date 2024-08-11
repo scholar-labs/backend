@@ -1,1 +1,0 @@
-This folder contains sample HTML pages to test the routes involving file uploads.
