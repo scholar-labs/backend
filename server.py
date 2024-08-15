@@ -36,6 +36,19 @@ def audio_to_text():
     output = response.json()
     return jsonify(output)
 
+# route to get captions using video link
+@app.route('/captions')
+def get_captions():
+    video_link = request.args.get('link')
+    video_id = video_link.split('v=')[-1][:11]
+    captions = YouTubeTranscriptApi.get_transcript(video_id)
+    l = len(captions)
+    ans = ''
+    for i in captions:
+        ans = ans + ' ' + i['text']
+    return ans
+
+
 # route for Q/A
 @app.route('/answer')
 def QnA():
