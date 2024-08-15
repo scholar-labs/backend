@@ -49,5 +49,17 @@ def QnA():
     text_response = text_response.replace('\n', '')
     return text_response
 
+# route to summarize text
+@app.route('/summarize', methods=['POST'])
+def summarize_text():
+    genai.configure(api_key="AIzaSyA0pe28Sg_5RCyDSxI8ea4r-LFHNTWbod4")
+    model = genai.GenerativeModel('gemini-1.5-flash')
+    data = request.json
+    text_to_summarize = data.get('text')
+    prompt = f"Please summarize the following text: {text_to_summarize}"
+    response = model.generate_content(prompt)
+    summary = response.candidates[0].content.parts[0].text
+    return jsonify({"summary": summary})
+
 if __name__ == '__main__':
     app.run(debug=True)
